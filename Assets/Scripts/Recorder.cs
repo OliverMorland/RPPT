@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ public class Recorder : MonoBehaviour
     [SerializeField] Button m_toggleMicButton;
     [SerializeField] Sprite m_notRecordingIcon;
     [SerializeField] Sprite m_isRecordingIcon;
-    [SerializeField] Text m_buttonText;
+    [SerializeField] TMP_Text m_buttonText;
     [SerializeField] int m_frequency = 24000;
     [SerializeField] int m_recordingDuration = 10;
     public UnityEvent m_onRecordingStarted;
