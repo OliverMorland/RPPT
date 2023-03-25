@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using Debug = UnityEngine.Debug;
 using AnotherFileBrowser.Windows;
+using System.IO;
 
 public class ModelAudioLoader : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class ModelAudioLoader : MonoBehaviour
     [SerializeField] TMP_Text m_fileNameLabel;
     [SerializeField] AudioClip m_modelAudioClip;
     [SerializeField] Button m_startButton;
-    [SerializeField] TMP_Text m_captionInput;
+    [SerializeField] TMP_InputField m_captionInput;
 
     private void Start()
     {
@@ -43,6 +44,28 @@ public class ModelAudioLoader : MonoBehaviour
             //Load image from local path with UWR
             StartCoroutine(LoadAudioClip(path));
         });
+    }
+
+    public void OpenTextFileExplorer()
+    {
+        var bp = new BrowserProperties();
+        bp.filter = "Image files (*.txt) | *.txt";
+        bp.filterIndex = 0;
+
+        new FileBrowser().OpenFileBrowser(bp, path =>
+        {
+            //Load image from local path with UWR
+            LoadTextFrom(path);
+        });
+    }
+
+    void LoadTextFrom(string path)
+    {
+        StreamReader reader = new StreamReader(path);
+        string readText = reader.ReadToEnd();
+        Debug.Log("Reading text: " + readText);
+        m_captionInput.text = readText;
+        reader.Close();
     }
 
     IEnumerator LoadAudioClip(string path)
