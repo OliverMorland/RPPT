@@ -7,16 +7,13 @@ using UnityEngine.UI;
 
 public class Recorder : MonoBehaviour
 {
-    [SerializeField] Button m_recordButton;
+    [SerializeField] Toggle m_recordButton;
     [SerializeField] Button m_toggleMicButton;
-    [SerializeField] Sprite m_notRecordingIcon;
-    [SerializeField] Sprite m_isRecordingIcon;
     [SerializeField] TMP_Text m_buttonText;
     [SerializeField] int m_frequency = 24000;
     [SerializeField] int m_recordingDuration = 10;
     public UnityEvent m_onRecordingStarted;
     public UnityEvent m_onRecordingStopped;
-    bool m_isRecording = false;
     int m_currentMicIndex = 0;
     int m_samplesRecordedWhenStopped;
     [SerializeField] AudioClip m_recordedAudioClip;
@@ -24,37 +21,32 @@ public class Recorder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_recordButton.image.sprite = m_notRecordingIcon;
-        m_recordButton.onClick.AddListener(OnRecordButtonClicked);
+        m_recordButton.onValueChanged.AddListener(OnRecordButtonClicked);
         m_toggleMicButton.onClick.AddListener(OnMicToggleButtonClicked);
         UpdateMicNameLabel();
     }
 
-    void OnRecordButtonClicked()
+    void OnRecordButtonClicked(bool isOn)
     {
-        if (m_isRecording)
+        if (isOn)
         {
-            StopMicrophoneRecording();
-            OnRecordingStoppped();
+            OnRecordingStarted();
         }
         else
         {
-            OnRecordingStarted();
+            StopMicrophoneRecording();
+            OnRecordingStoppped();
         }
     }
 
     void OnRecordingStarted()
     {
-        m_isRecording = true;
-        m_recordButton.image.sprite = m_isRecordingIcon;
         CreateRecording();
         m_onRecordingStarted.Invoke();
     }
 
     void OnRecordingStoppped()
     {
-        m_isRecording = false;
-        m_recordButton.image.sprite = m_notRecordingIcon;
         m_onRecordingStopped.Invoke();
     }
 

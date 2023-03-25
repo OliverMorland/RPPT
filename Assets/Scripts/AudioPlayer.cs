@@ -14,8 +14,8 @@ public class AudioPlayer : MonoBehaviour
     AudioClip m_recordedAudioClip;
     int m_samplesOfRecordedAudio;
     [SerializeField] TMP_Text m_caption;
-    [SerializeField] Image m_modelAudioBarFill;
-    [SerializeField] Image m_recordedAudioBarFill;
+    [SerializeField] Slider m_modelAudioSlider;
+    [SerializeField] Slider m_recordedAudioSlider;
     public UnityEvent m_finishedPlayingRecordedAudio;
 
 
@@ -52,7 +52,7 @@ public class AudioPlayer : MonoBehaviour
             }
             else
             {
-                m_modelAudioBarFill.fillAmount = audioElapsed;
+                m_modelAudioSlider.value = audioElapsed;
             }
         }
 
@@ -67,7 +67,7 @@ public class AudioPlayer : MonoBehaviour
             }
             else
             {
-                m_recordedAudioBarFill.fillAmount = audioElapsed;
+                m_recordedAudioSlider.value = audioElapsed;
             }
         }
     }
@@ -167,8 +167,8 @@ public class AudioPlayer : MonoBehaviour
 
     public void ResetProgressBars()
     {
-        m_modelAudioBarFill.fillAmount = 0;
-        m_recordedAudioBarFill.fillAmount = 0;
+        m_modelAudioSlider.value = 0;
+        m_recordedAudioSlider.value = 0;
 
     }
 
