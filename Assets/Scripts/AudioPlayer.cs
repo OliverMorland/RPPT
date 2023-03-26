@@ -16,8 +16,8 @@ public class AudioPlayer : MonoBehaviour
     [SerializeField] TMP_Text m_caption;
     [SerializeField] Slider m_modelAudioSlider;
     [SerializeField] Slider m_recordedAudioSlider;
+    [SerializeField] int m_fastForwardInterval;
     public UnityEvent m_finishedPlayingRecordedAudio;
-
 
     private void Awake()
     {
@@ -169,7 +169,16 @@ public class AudioPlayer : MonoBehaviour
     {
         m_modelAudioSlider.value = 0;
         m_recordedAudioSlider.value = 0;
+    }
 
+    public void FastForward()
+    {
+        if (CurrentClipIsModelAudioClip())
+        {
+            int totalSamples = m_audioSource.clip.samples;
+            int fastForwardInterval = totalSamples / m_fastForwardInterval;
+            m_audioSource.timeSamples = m_audioSource.timeSamples + fastForwardInterval;
+        }
     }
 
 }
