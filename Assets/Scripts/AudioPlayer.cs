@@ -169,6 +169,7 @@ public class AudioPlayer : MonoBehaviour
     {
         m_modelAudioSlider.value = 0;
         m_recordedAudioSlider.value = 0;
+        m_audioSource.timeSamples = 0;
     }
 
     public void FastForward()
