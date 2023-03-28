@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +13,7 @@ public class Recorder : MonoBehaviour
     [SerializeField] TMP_Text m_buttonText;
     [SerializeField] int m_frequency = 24000;
     [SerializeField] int m_recordingDuration = 10;
+    [SerializeField] float m_amplification = 2f;
     public UnityEvent m_onRecordingStarted;
     public UnityEvent m_onRecordingStopped;
     int m_currentMicIndex = 0;
@@ -84,9 +86,21 @@ public class Recorder : MonoBehaviour
     {
         string currentMic = Microphone.devices[m_currentMicIndex];
         int samplesRecorded = Microphone.GetPosition(currentMic);
+        AmplifyAudio(m_recordedAudioClip);
         m_samplesRecordedWhenStopped = samplesRecorded;
         Microphone.End(currentMic);
 
+    }
+
+    void AmplifyAudio(AudioClip audioClip)
+    {
+        float [] data = new float[audioClip.samples];
+        audioClip.GetData(data, 0);
+        for (int i = 0; i < data.Length; i++)
+        {
+            data[i] = data[i] * m_amplification;
+        }
+        audioClip.SetData(data, 0);
     }
 
     public int GetSamplesRecordedWhenStopped()
