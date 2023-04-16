@@ -1,15 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 using TMPro;
 using UnityEngine.UI;
-using System.Diagnostics;
-using System.ComponentModel;
 using Debug = UnityEngine.Debug;
-using AnotherFileBrowser.Windows;
+using Crosstales.FB;
 using System.IO;
 
 public class ModelAudioLoader : MonoBehaviour
@@ -34,29 +30,14 @@ public class ModelAudioLoader : MonoBehaviour
 
     public void OpenFileExplorer()
     {
-        //path = EditorUtility.OpenFilePanel("Find Model Audio Track", "", "mp3");
-        var bp = new BrowserProperties();
-        bp.filter = "Image files (*.mp3) | *.mp3";
-        bp.filterIndex = 0;
-
-        new FileBrowser().OpenFileBrowser(bp, path =>
-        {
-            //Load image from local path with UWR
-            StartCoroutine(LoadAudioClip(path));
-        });
+        string path = FileBrowser.Instance.OpenSingleFile("mp3");
+        StartCoroutine(LoadAudioClip(path));
     }
 
     public void OpenTextFileExplorer()
     {
-        var bp = new BrowserProperties();
-        bp.filter = "Image files (*.txt) | *.txt";
-        bp.filterIndex = 0;
-
-        new FileBrowser().OpenFileBrowser(bp, path =>
-        {
-            //Load image from local path with UWR
-            LoadTextFrom(path);
-        });
+        string path = FileBrowser.Instance.OpenSingleFile("txt");
+        LoadTextFrom(path);
     }
 
     void LoadTextFrom(string path)
